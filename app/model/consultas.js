@@ -5,5 +5,8 @@ class Consultas{
 	_carregar_todos_registros(schema,callback){
 		return schema.find(callback);
 	}
+	_deletar_registro(schema,where,callback){
+		return schema.deleteOne(where,callback);
+	}
 }
 module.exports = new Consultas();

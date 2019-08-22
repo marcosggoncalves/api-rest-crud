@@ -13,13 +13,11 @@ app.use((req, res,next)=>{
 
 // importar arquivos para carregamento das rotas;
 
-const Index = require('../app/routes/index');
-const Cadastrousuario = require('../app/routes/cadastroUsuario');
+const Cadastrousuario = require('../app/routes/Usuario');
 
 // carregamento de rotas;
 
-app.use('/',Index);
-app.use('/cadastro',Cadastrousuario);
+app.use('/usuario',Cadastrousuario);
 
 
 module.exports = app;
