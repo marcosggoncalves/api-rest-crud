@@ -85,13 +85,13 @@ module.exports.pesquisa = (req,res)=>{
 	 	}else{
 	 		if(result.length == 0){
 	 			res.json({
-					status:true,
+					status:false,
 					message:'Usuário não encontrado'
 				});
 	 		}else{
 	 			res.json({
 					status:true,
-					message:result
+					usuarios:result
 				});
 	 		}
 	 	}
