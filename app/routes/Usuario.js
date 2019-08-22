@@ -3,6 +3,8 @@ const cadastroUsuario = require('../controllers/Usuario');
 const { check } = require('express-validator');
 
 router.get('/',cadastroUsuario.index);
+router.get('/pesquisa/:cpf',cadastroUsuario.pesquisa);
+
 router.post('/cadastrar',
 	[
 		check('nome_completo', 'Nome completo é obrigatório').not().isEmpty(),

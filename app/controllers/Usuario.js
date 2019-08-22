@@ -4,7 +4,7 @@ module.exports.index =(req,res)=>{
 
 	consulta._carregar_todos_registros(schemas.createUsuario,(err,result)=>{
 		if(err){
-			res.status(404).json({'usuarios':[],status:false});
+			res.status(400).json({'usuarios':[],status:false});
 		}else{
 			console.log('Consulta realizada com sucesso !!!');
 			res.json({'usuarios':result,status:true});
@@ -27,7 +27,7 @@ module.exports.cadastro_usuario = (req,res)=>{
 		let usuario = new schemas.createUsuario(req.body);
 		consulta._salvar_registro(usuario,(err,result)=>{
 			if(err){
-				res.status(404).json({
+				res.status(400).json({
 					status:false,
 					message:'Não foi possivel cadastrar usuário, tente novamente.'
 				});
@@ -45,20 +45,20 @@ module.exports.deletar_usuario  = (req, res) =>{
 	let consulta = require('../model/consultas');
 
 	if(req.params.cpf < 0){
-		res.status(404).json({
+		res.status(400).json({
 			status:false,
 			message:'Digite um id válido'
 		});
 	}else{
 		consulta._deletar_registro(schemas.createUsuario,{cpf:req.params.cpf},(err,result)=>{
 			if(err){
-				res.status(404).json({
+				res.status(400).json({
 					status:false,
 					message:'Não foi possivel deletar usuário, tente novamente.'
 				});
 			}else{
 				if(result.n == 0){
-					res.status(404).json({
+					res.status(400).json({
 						status:false,
 						message:'Não existe usuário com essa informação.'
 					});
@@ -71,4 +71,29 @@ module.exports.deletar_usuario  = (req, res) =>{
 			}
 		});
 	}
+}
+module.exports.pesquisa = (req,res)=>{
+	 let schemas = require('../../config/connect');
+	 let consulta = require('../model/consultas');
+
+	 consulta._filter_registro(schemas.createUsuario,req.params.cpf,(erro,result)=>{
+	 	if(erro){
+	 		res.status(400).json({
+				status:false,
+				message:'Não foi possivel realizar consulta'
+			});
+	 	}else{
+	 		if(result.length == 0){
+	 			res.json({
+					status:true,
+					message:'Usuário não encontrado'
+				});
+	 		}else{
+	 			res.json({
+					status:true,
+					message:result
+				});
+	 		}
+	 	}
+	 });
 }
