@@ -97,3 +97,31 @@ module.exports.pesquisa = (req,res)=>{
 	 	}
 	 });
 }
+module.exports.editar = (req,res)=>{
+	let schemas = require('../../config/connect');
+	let consulta = require('../model/consultas');
+	let { check, validationResult } = require('express-validator');
+	
+	let errors = validationResult(req);
+
+	if(!errors.isEmpty()){
+		res.json({
+			status:false,
+			validation:errors.array()
+		});
+	}else{
+		consulta._editar_registro(schemas.createUsuario,req.params.cpf,req.body,(err,result)=>{
+			if(err){
+				res.status(400).json({
+					status:false,
+					message:'Não foi possivel editar usuário, tente novamente.'
+				});
+			}else{
+				res.json({
+					status:true,
+					message:'Usuário editado com sucesso.'
+				});
+			}
+		});
+	}
+}

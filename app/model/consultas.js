@@ -11,5 +11,8 @@ class Consultas{
 	_filter_registro(schema,cpf,callback){
 		return schema.find({cpf:cpf}).exec(callback);
 	}
+	_editar_registro(schema,cpf,usuario,callback){
+		return schema.update({cpf:cpf},{ $set:usuario},callback);
+	}
 }
 module.exports = new Consultas();
